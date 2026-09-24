@@ -1,9 +1,6 @@
 <?php
 declare(strict_types=1);
-session_start();
 
-$_SESSION = [];
-session_destroy();
-
+// Compatibilidad: el panel actual limpia sus eventos directamente en el navegador.
 header('Location: panel.php');
 exit;

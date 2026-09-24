@@ -1,13 +1,10 @@
 <?php
 declare(strict_types=1);
-session_start();
 
-if (empty($_SESSION['demo_verified'])) {
+if (($_GET['demo'] ?? '') !== 'ok') {
     header('Location: index.php');
     exit;
 }
-
-unset($_SESSION['demo_verified']);
 ?>
 <!doctype html>
 <html lang="es">
@@ -68,5 +65,19 @@ p{margin:0 0 .85cqw;font-size:.74cqw;line-height:1.5;color:#444}
     </section>
   </div>
 </div>
+<script>
+try {
+  const key = 'busman_demo_events_v1';
+  const events = JSON.parse(localStorage.getItem(key) || '[]');
+  events.push({
+    time: new Date().toISOString(),
+    username: 'anthony.flores@busman.com.mx',
+    status: 'DEMO COMPLETADA'
+  });
+  localStorage.setItem(key, JSON.stringify(events.slice(-50)));
+} catch (e) {
+  // El flujo principal no depende de localStorage.
+}
+</script>
 </body>
 </html>

@@ -1,11 +1,5 @@
 <?php
 declare(strict_types=1);
-session_start();
-
-// Limpia solo el flujo actual; conserva los eventos DEMO del panel.
-unset($_SESSION['pending_demo_user'], $_SESSION['demo_verified']);
-
-$demoUser = 'anthony.flores@busman.com.mx';
 ?>
 <!doctype html>
 <html lang="es">

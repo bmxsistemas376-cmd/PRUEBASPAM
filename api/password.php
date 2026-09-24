@@ -1,25 +1,17 @@
 <?php
 declare(strict_types=1);
-session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim((string)($_POST['username'] ?? ''));
-
-    if ($username !== 'anthony.flores@busman.com.mx') {
-        http_response_code(400);
-        exit('Valor rechazado. Usa únicamente el usuario DEMO mostrado en la página.');
-    }
-
-    $_SESSION['pending_demo_user'] = $username;
-} else {
-    $username = (string)($_SESSION['pending_demo_user'] ?? '');
-    if ($username !== 'anthony.flores@busman.com.mx') {
-        header('Location: index.php');
-        exit;
-    }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: index.php');
+    exit;
 }
 
-$demoPass = 'DEMO-Busman2026';
+$username = trim((string)($_POST['username'] ?? ''));
+
+if ($username !== 'anthony.flores@busman.com.mx') {
+    http_response_code(400);
+    exit('Valor rechazado. Usa únicamente el usuario DEMO permitido.');
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -85,9 +77,10 @@ input{
      
 
       <form action="submit.php" method="post" autocomplete="off">
+        <input type="hidden" name="username" value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>">
         <input
           name="password"
-          type="text"
+          type="password"
           placeholder="Contraseña"
           required
           pattern="DEMO-Busman2026"

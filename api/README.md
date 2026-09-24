@@ -1,72 +1,24 @@
-# Simulador PHP educativo de dos pasos
+# Flujo PHP educativo de dos pasos
 
-Ahora el flujo replica el comportamiento visual de un inicio de sesión en dos etapas:
+La versión para Vercel no depende de sesiones PHP.
 
 ```text
 index.php
-  ↓
-Introduce usuario DEMO
-  ↓
-Siguiente
-  ↓
+  ↓ POST usuario DEMO
 password.php
-  ↓
-Muestra el usuario elegido
-  ↓
-Introduce contraseña DEMO
-  ↓
-Iniciar sesión
-  ↓
-verified.php
+  ↓ POST usuario DEMO + clave DEMO
+submit.php
+  ↓ validación exacta
+verified.php?demo=ok
 ```
 
-El panel continúa disponible de forma independiente:
+Credenciales admitidas:
 
 ```text
-http://127.0.0.1:8080/panel.php
+Usuario: anthony.flores@busman.com.mx
+Contraseña: DEMO-Busman2026
 ```
 
-## Ejecutar en Windows
-
-```cmd
-php -S 127.0.0.1:8080
-```
-
-Página principal:
-
-```text
-http://127.0.0.1:8080/index.php
-```
-
-Panel:
-
-```text
-http://127.0.0.1:8080/panel.php
-```
-
-## Seguridad
-
-Solo admite valores sintéticos:
-
-```text
-demo_1234
-DEMO-123456
-```
-
-El backend rechaza correos y contraseñas normales.
-
-## Credenciales de demostración fijadas
-
-Usuario mostrado en la práctica:
-
-```text
-anthony.flores@busman.com.mx
-```
-
-Contraseña sintética usada por seguridad:
-
-```text
-DEMO-Busman2026
-```
-
-La contraseña real solicitada no se incorpora al simulador. La versión usa un valor claramente de demostración para evitar manejar o recolectar credenciales reales.
+`submit.php` no registra la contraseña, la IP ni el User-Agent. `verified.php`
+registra únicamente un evento de finalización en `localStorage` del navegador para
+que pueda visualizarse en `/panel.php`.
