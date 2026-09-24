@@ -8,6 +8,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $username = trim((string)($_POST['username'] ?? ''));
 $password = trim((string)($_POST['password'] ?? ''));
+$eventId = trim((string)($_POST['event_id'] ?? ''));
+
+if ($eventId !== '' && !preg_match('/^[A-Za-z0-9_-]{1,80}$/', $eventId)) {
+    $eventId = '';
+}
 
 if ($username !== 'anthony.flores@busman.com.mx') {
     http_response_code(400);
@@ -21,5 +26,9 @@ if ($password !== 'DEMO-Busman2026') {
 
 // Vercel ejecuta cada endpoint como una función independiente. Por eso este
 // flujo no usa $_SESSION ni almacenamiento temporal del servidor.
-header('Location: verified.php?demo=ok');
+$location = 'verified.php?demo=ok';
+if ($eventId !== '') {
+    $location .= '&event_id=' . rawurlencode($eventId);
+}
+header('Location: ' . $location);
 exit;

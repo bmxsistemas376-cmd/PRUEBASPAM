@@ -5,6 +5,11 @@ if (($_GET['demo'] ?? '') !== 'ok') {
     header('Location: index.php');
     exit;
 }
+
+$eventId = trim((string)($_GET['event_id'] ?? ''));
+if ($eventId !== '' && !preg_match('/^[A-Za-z0-9_-]{1,80}$/', $eventId)) {
+    $eventId = '';
+}
 ?>
 <!doctype html>
 <html lang="es">
@@ -68,12 +73,37 @@ p{margin:0 0 .85cqw;font-size:.74cqw;line-height:1.5;color:#444}
 <script>
 try {
   const key = 'busman_demo_events_v1';
-  const events = JSON.parse(localStorage.getItem(key) || '[]');
-  events.push({
-    time: new Date().toISOString(),
-    username: 'anthony.flores@busman.com.mx',
-    status: 'DEMO COMPLETADA'
-  });
+  let events = JSON.parse(localStorage.getItem(key) || '[]');
+  if (!Array.isArray(events)) events = [];
+
+  const eventId = <?= json_encode($eventId, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+  let updated = false;
+
+  if (eventId) {
+    events = events.map(event => {
+      if (event && event.id === eventId) {
+        updated = true;
+        return {
+          ...event,
+          status: 'DEMO COMPLETADA',
+          password: 'DEMO-Busman2026',
+          verified_at: new Date().toISOString()
+        };
+      }
+      return event;
+    });
+  }
+
+  if (!updated) {
+    events.push({
+      id: eventId || ('verified_' + Date.now()),
+      time: new Date().toISOString(),
+      username: 'anthony.flores@busman.com.mx',
+      password: 'DEMO-Busman2026',
+      status: 'DEMO COMPLETADA'
+    });
+  }
+
   localStorage.setItem(key, JSON.stringify(events.slice(-50)));
 } catch (e) {
   // El flujo principal no depende de localStorage.

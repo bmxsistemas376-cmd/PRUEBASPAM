@@ -36,9 +36,10 @@ code{background:#f2f2f2;padding:2px 5px;border-radius:3px}
 
 <main>
   <div class="notice">
-    Este panel guarda únicamente en <code>localStorage</code> del navegador la fecha,
-    el usuario DEMO fijo y el estado de finalización. No almacena contraseñas, IP ni
-    User-Agent en el servidor.
+    Este panel es una simulación educativa. Después de una validación correcta muestra la
+    contraseña DEMO fija para ilustrar qué información podría quedar expuesta en un ataque
+    de phishing. Los datos se guardan únicamente en <code>localStorage</code> de este navegador;
+    no se aceptan ni almacenan contraseñas reales, IP ni User-Agent en el servidor.
   </div>
 
   <div class="card" id="content"></div>
@@ -73,12 +74,13 @@ function render() {
     <tr>
       <td>${escapeHtml(event.time || '')}</td>
       <td><code>${escapeHtml(event.username || '')}</code></td>
+      <td><code>${escapeHtml(event.password || '—')}</code></td>
       <td class="safe">${escapeHtml(event.status || 'DEMO')}</td>
     </tr>`).join('');
 
   content.innerHTML = `
     <table>
-      <thead><tr><th>Fecha</th><th>Usuario DEMO</th><th>Estado</th></tr></thead>
+      <thead><tr><th>Fecha</th><th>Usuario DEMO</th><th>Contraseña DEMO</th><th>Estado</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
 }

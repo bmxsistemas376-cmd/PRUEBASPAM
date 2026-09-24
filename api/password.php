@@ -76,8 +76,9 @@ input{
 
      
 
-      <form action="submit.php" method="post" autocomplete="off">
-        <input type="hidden" name="username" value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>">
+      <form id="loginForm" action="submit.php" method="post" autocomplete="off">
+        <input type="hidden" name="username" id="demoUsername" value="<?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>">
+        <input type="hidden" name="event_id" id="eventId" value="">
         <input
           name="password"
           type="password"
@@ -95,5 +96,37 @@ input{
     </section>
   </div>
 </div>
+
+<script>
+(function () {
+  const form = document.getElementById('loginForm');
+  const username = document.getElementById('demoUsername');
+  const eventIdInput = document.getElementById('eventId');
+  const storageKey = 'busman_demo_events_v1';
+
+  form.addEventListener('submit', function () {
+    if (!form.checkValidity()) return;
+
+    const eventId = 'demo_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    eventIdInput.value = eventId;
+
+    try {
+      let events = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      if (!Array.isArray(events)) events = [];
+
+      events.push({
+        id: eventId,
+        time: new Date().toISOString(),
+        username: username.value,
+        status: 'INICIO DE SESIÓN DEMO'
+      });
+
+      localStorage.setItem(storageKey, JSON.stringify(events.slice(-50)));
+    } catch (e) {
+      // El inicio de sesión no depende de localStorage.
+    }
+  });
+})();
+</script>
 </body>
 </html>

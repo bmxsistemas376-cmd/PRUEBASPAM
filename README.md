@@ -24,7 +24,7 @@ vuelve a validarlo. No se almacenan credenciales, IPs ni User-Agent en el servid
 - No usa `$_SESSION`.
 - No guarda la contraseña enviada.
 - No almacena IP ni User-Agent.
-- El panel usa únicamente `localStorage` del navegador para registrar que la práctica fue completada.
+- El panel usa únicamente `localStorage` del navegador para registrar el inicio de sesión DEMO y actualizarlo a `DEMO COMPLETADA` cuando la validación termina. No almacena la contraseña.
 
 Credenciales DEMO:
 
@@ -59,3 +59,16 @@ Contraseña: DEMO-Busman2026
 6. Haz un nuevo deployment.
 
 La portada queda en `/` y el panel de demostración en `/panel.php`.
+
+
+## Panel de eventos
+
+El evento se crea al enviar el formulario de contraseña y queda asociado a un identificador DEMO.
+Al llegar a `verified.php`, ese mismo evento se actualiza a `DEMO COMPLETADA`.
+
+Importante: `localStorage` pertenece al navegador y al hostname. Para ver el registro, abre el formulario y `panel.php` usando exactamente el mismo dominio de Vercel (por ejemplo, ambos bajo `https://pruebaspam3.vercel.app`).
+
+
+## Panel educativo
+
+El panel muestra la contraseña fija `DEMO-Busman2026` únicamente después de completar correctamente la simulación. No captura ni almacena contraseñas arbitrarias o reales; el flujo acepta exclusivamente las credenciales DEMO predefinidas. Los eventos se conservan en `localStorage` del navegador.
