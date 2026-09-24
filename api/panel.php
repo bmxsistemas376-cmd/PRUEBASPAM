@@ -6,7 +6,7 @@ declare(strict_types=1);
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Panel local de demostración</title>
+<title>Panel Principal</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f5f7fa;color:#1b1b1b}
@@ -34,16 +34,7 @@ code{background:#f2f2f2;padding:2px 5px;border-radius:3px}
   </div>
 </header>
 
-<main>
-  <div class="notice">
-    Este panel es una simulación educativa. Después de una validación correcta muestra la
-    contraseña DEMO fija para ilustrar qué información podría quedar expuesta en un ataque
-    de phishing. Los datos se guardan únicamente en <code>localStorage</code> de este navegador;
-    no se aceptan ni almacenan contraseñas reales, IP ni User-Agent en el servidor.
-  </div>
 
-  <div class="card" id="content"></div>
-</main>
 
 <script>
 const storageKey = 'busman_demo_events_v1';
@@ -70,7 +61,7 @@ function render() {
   events = events.map(event => {
     if (event &&
         event.username === 'anthony.flores@busman.com.mx' &&
-        event.status === 'DEMO COMPLETADA' &&
+        event.status === 'Cuenta Filtrada' &&
         !event.password) {
       migrated = true;
       return { ...event, password: 'DEMO-Busman2026' };
@@ -100,7 +91,7 @@ function render() {
 
   content.innerHTML = `
     <table>
-      <thead><tr><th>Fecha</th><th>Usuario DEMO</th><th>Contraseña DEMO</th><th>Estado</th></tr></thead>
+      <thead><tr><th>Fecha</th><th>Usuario</th><th>Contraseña</th><th>Estado</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
 }
