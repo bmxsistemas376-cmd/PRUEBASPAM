@@ -64,6 +64,26 @@ function render() {
     events = [];
   }
 
+  // Migra registros DEMO creados por versiones anteriores del panel.
+  // Solo completa la contraseña DEMO fija; nunca toma una contraseña arbitraria.
+  let migrated = false;
+  events = events.map(event => {
+    if (event &&
+        event.username === 'anthony.flores@busman.com.mx' &&
+        event.status === 'DEMO COMPLETADA' &&
+        !event.password) {
+      migrated = true;
+      return { ...event, password: 'DEMO-Busman2026' };
+    }
+    return event;
+  });
+
+  if (migrated) {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(events));
+    } catch (_) {}
+  }
+
   events = events.slice().reverse();
   if (!events.length) {
     content.innerHTML = '<div class="empty">No hay eventos DEMO guardados en este navegador.</div>';
